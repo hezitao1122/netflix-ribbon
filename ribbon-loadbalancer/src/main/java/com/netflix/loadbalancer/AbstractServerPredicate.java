@@ -154,6 +154,9 @@ public abstract class AbstractServerPredicate implements Predicate<PredicateKey>
         for (;;) {
             int current = nextIndex.get();
             int next = (current + 1) % modulo;
+            /*
+                记录当前请求的索引值,然后把netIndex重新计算,等于 (上次的值+1) % 总机器数
+             */
             if (nextIndex.compareAndSet(current, next) && current < modulo)
                 return current;
         }

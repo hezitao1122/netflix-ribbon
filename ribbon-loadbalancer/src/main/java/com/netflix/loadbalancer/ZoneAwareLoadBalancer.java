@@ -135,10 +135,21 @@ public class ZoneAwareLoadBalancer<T extends Server> extends DynamicServerListLo
                 existingLBEntry.getValue().setServersList(Collections.emptyList());
             }
         }
-    }    
-        
+    }
+    /** description:
+     *
+     默认负载均衡
+     1. 内部对每个机房都搞了个BaseLoadBalancer
+     2. 负载均衡具体执行的是AbstractServerPredicate.incrementAndGetModulo()方法
+     3. 记录当前请求的索引值,然后把netIndex重新计算,等于 (上次的值+1) % 总机器数
+     * @return: com.netflix.loadbalancer.Server
+     * @Author: zeryts
+     * @email: hezitao@agree.com
+     * @Date: 2021/3/24 6:44
+     */
     @Override
     public Server chooseServer(Object key) {
+
         if (!enabled.getOrDefault() || getLoadBalancerStats().getAvailableZones().size() <= 1) {
             logger.debug("Zone aware logic disabled or there is only one zone");
             return super.chooseServer(key);
@@ -154,6 +165,13 @@ public class ZoneAwareLoadBalancer<T extends Server> extends DynamicServerListLo
                 String zone = ZoneAvoidanceRule.randomChooseZone(zoneSnapshot, availableZones);
                 logger.debug("Zone chosen: {}", zone);
                 if (zone != null) {
+                    /*
+                        默认负载均衡
+                        1. 内部对每个机房都搞了个BaseLoadBalancer
+                        2. 负载均衡具体执行的是AbstractServerPredicate.incrementAndGetModulo()方法
+                        3. 记录当前请求的索引值,然后把netIndex重新计算,等于 (上次的值+1) % 总机器数
+
+                     */
                     BaseLoadBalancer zoneLoadBalancer = getLoadBalancer(zone);
                     server = zoneLoadBalancer.chooseServer(key);
                 }
@@ -175,6 +193,9 @@ public class ZoneAwareLoadBalancer<T extends Server> extends DynamicServerListLo
         BaseLoadBalancer loadBalancer = balancers.get(zone);
         if (loadBalancer == null) {
         	// We need to create rule object for load balancer for each zone
+            /*
+
+             */
         	IRule rule = cloneRule(this.getRule());
             loadBalancer = new BaseLoadBalancer(this.getName() + "_" + zone, rule, this.getLoadBalancerStats());
             BaseLoadBalancer prev = balancers.putIfAbsent(zone, loadBalancer);
