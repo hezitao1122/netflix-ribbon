@@ -26,7 +26,7 @@ import java.util.List;
  * server from the existing list of server.
  * 
  * @author stonse
- * 
+ * 这是入口类
  */
 public interface ILoadBalancer {
 
@@ -46,6 +46,10 @@ public interface ILoadBalancer {
 	 * @param key An object that the load balancer may use to determine which server to return. null if 
 	 *         the load balancer does not use this parameter.
 	 * @return server chosen
+	 *
+	 * 1. SpringCloud的RibbonLoadBalancerClient.getServer方法调用的就是这个方法
+	 * 2. key是传入的是serviceId , serviceId是例如 serverA 即服务名
+	 *
 	 */
 	public Server chooseServer(Object key);
 	

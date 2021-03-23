@@ -43,6 +43,8 @@ import javax.inject.Provider;
  *
  * @author stonse
  *
+ * 这里是具体选择执行ServerList的代码
+ *
  */
 public class DiscoveryEnabledNIWSServerList extends AbstractServerList<DiscoveryEnabledServer>{
 
@@ -147,15 +149,28 @@ public class DiscoveryEnabledNIWSServerList extends AbstractServerList<Discovery
     public List<DiscoveryEnabledServer> getUpdatedListOfServers(){
         return obtainServersViaDiscovery();
     }
-
+    /** description:
+     * 从Eureka中去取服务列表的方法
+     * 1. eurekaClientProvider.get()
+     *  1). 拿到一个EurekaClient客户端
+     *  2). EurekaClientProvider具体的实现是的是DiscoveryClient
+     * 2. 返回一个DiscoveryEnabledServer
+     *  1). 有一个Eureka的InstanceInfo对象,代表一个Eureka的实例信息
+     *  2). 有一个Server对象,有host \ port (default = 80) 等信息
+     * @return: java.util.List<com.netflix.niws.loadbalancer.DiscoveryEnabledServer>
+     * @Author: zeryts
+     * @email: hezitao@agree.com
+     * @Date: 2021/3/23 22:08
+     */
     private List<DiscoveryEnabledServer> obtainServersViaDiscovery() {
+
         List<DiscoveryEnabledServer> serverList = new ArrayList<DiscoveryEnabledServer>();
 
         if (eurekaClientProvider == null || eurekaClientProvider.get() == null) {
             logger.warn("EurekaClient has not been initialized yet, returning an empty list");
             return new ArrayList<DiscoveryEnabledServer>();
         }
-
+        // 1.拿到一个EurekaClient客户端 , 具体是DiscoveryClient
         EurekaClient eurekaClient = eurekaClientProvider.get();
         if (vipAddresses!=null){
             for (String vipAddress : vipAddresses.split(",")) {
