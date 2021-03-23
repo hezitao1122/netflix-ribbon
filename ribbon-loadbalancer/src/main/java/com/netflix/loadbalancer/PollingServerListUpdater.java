@@ -18,6 +18,8 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * (refactored and moved here from {@link com.netflix.loadbalancer.DynamicServerListLoadBalancer})
  *
  * @author David Liu
+ *
+ * 具体实施的定时任务
  */
 public class PollingServerListUpdater implements ServerListUpdater {
 

@@ -216,6 +216,12 @@ public class DynamicServerListLoadBalancer<T extends Server> extends BaseLoadBal
      * Feature that lets us add new instances (from AMIs) to the list of
      * existing servers that the LB will use Call this method if you want this
      * feature enabled
+     * 初始化拉取的servers列表
+     *  1. 启动服务列表的更新组件
+     *      1). 具体调度是由PollingServerListUpdater这个方法中的scheduledFuture
+     *      2). 默认情况下下,启动后延迟1S,且每个30S进行一次服务注册表的拉取
+     *  2. 拉取服务注册表,具体走的是doUpdate方法
+     *  3. 具体调用是updateListOfServers
      */
     public void enableAndInitLearnNewServersFeature() {
         LOGGER.info("Using serverListUpdater {}", serverListUpdater.getClass().getSimpleName());
