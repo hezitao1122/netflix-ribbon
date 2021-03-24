@@ -156,6 +156,11 @@ public class WeightedResponseTimeRule extends RoundRobinRule {
     }
 
     @edu.umd.cs.findbugs.annotations.SuppressWarnings(value = "RCN_REDUNDANT_NULLCHECK_OF_NULL_VALUE")
+    /**
+     WeightedResponseTimeRule算法
+     1. 每台机器都带着权重
+     2. 权重越高,越优先访问
+     */
     @Override
     public Server choose(ILoadBalancer lb, Object key) {
         if (lb == null) {

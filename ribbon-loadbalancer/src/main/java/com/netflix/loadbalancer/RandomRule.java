@@ -87,6 +87,13 @@ public class RandomRule extends AbstractLoadBalancerRule {
         return ThreadLocalRandom.current().nextInt(serverCount);
     }
 
+    /**
+     RandomRule
+     1. 随机找一台服务器
+     2. 尽量随机分散到所有服务器上
+     * @param key
+     * @return
+     */
 	@Override
 	public Server choose(Object key) {
 		return choose(getLoadBalancer(), key);

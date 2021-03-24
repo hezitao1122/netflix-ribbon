@@ -96,6 +96,10 @@ public class RoundRobinRule extends AbstractLoadBalancerRule {
      *
      * @param modulo The modulo to bound the value of the counter.
      * @return The next value.
+      RoundRobinRule算法
+        1.记录当前请求的索引值，然后求余机器数
+        2.将求余的机器数+1后设置到索引值中
+        3.调用此索引值的机器
      */
     private int incrementAndGetModulo(int modulo) {
         for (;;) {

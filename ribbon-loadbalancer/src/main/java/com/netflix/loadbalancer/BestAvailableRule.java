@@ -35,7 +35,14 @@ import java.util.List;
 public class BestAvailableRule extends ClientConfigEnabledRoundRobinRule {
 
     private LoadBalancerStats loadBalancerStats;
-    
+
+    /**
+     BestAvailableRule算法
+     1. 查看是否服务器故障
+     2. 尽量请求最少的服务器
+     * @param key
+     * @return
+     */
     @Override
     public Server choose(Object key) {
         if (loadBalancerStats == null) {

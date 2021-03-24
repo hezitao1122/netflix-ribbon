@@ -76,7 +76,10 @@ public class AvailabilityFilteringRule extends PredicateBasedRule {
     /**
      * This method is overridden to provide a more efficient implementation which does not iterate through
      * all servers. This is under the assumption that in most cases, there are more available instances 
-     * than not. 
+     * than not.
+     * roundRobinRule算法
+        1. 选择一台机器,如果不可用,往复调用十次
+        2. 如果十次完毕还不可用,则选择用RoundRobin算法下一台继续调用十次
      */
     @Override
     public Server choose(Object key) {

@@ -68,6 +68,13 @@ public class ZoneAvoidanceRule extends PredicateBasedRule {
         return map;
     }
 
+    /**
+     ZoneAvoidanceRule
+     1.根据机房进行负载均衡选择
+     * @param snapshot
+     * @param chooseFrom
+     * @return
+     */
     static String randomChooseZone(Map<String, ZoneSnapshot> snapshot,
             Set<String> chooseFrom) {
         if (chooseFrom == null || chooseFrom.size() == 0) {

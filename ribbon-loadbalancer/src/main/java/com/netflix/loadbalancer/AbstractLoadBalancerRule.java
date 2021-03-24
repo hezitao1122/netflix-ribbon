@@ -23,6 +23,28 @@ import com.netflix.client.IClientConfigAware;
  * Class that provides a default implementation for setting and getting load balancer
  * @author stonse
  *
+ 负载均衡算法
+    1. roundRobinRule算法
+        1). 选择一台机器,如果不可用,往复调用十次
+        2). 如果十次完毕还不可用,则选择用RoundRobin算法下一台继续调用十次
+    2. AvailabilityFilteringRule算法
+        1). 选择一台机器,如果不可用,往复调用十次
+        2). 如果十次完毕还不可用,则选择用RoundRobin算法下一台继续调用十次
+    3. BestAvailableRule算法
+        1). 查看是否服务器故障
+        2). 尽量请求最少的服务器
+    4. RandomRule
+        1. 随机找一台服务器
+        2. 尽量随机分散到所有服务器上
+    5. RetryRule算法
+        1). 先基于RoundRobin找一台
+        2). 如果服务器不可用,则再次选择一台
+    6.  WeightedResponseTimeRule算法
+        1). 每台机器都带着权重
+        2). 权重越高,越优先访问
+    7. ZoneAvoidanceRule
+        1).根据机房进行负载均衡选择
+ *
  */
 public abstract class AbstractLoadBalancerRule implements IRule, IClientConfigAware {
 

@@ -75,6 +75,15 @@ public class RetryRule extends AbstractLoadBalancerRule {
 	 * subRule, because we're not spawning additional threads and returning
 	 * early.
 	 */
+
+	/**
+	 RetryRule算法
+	 1. 先基于RoundRobin找一台
+	 2. 如果服务器不可用,则再次选择一台
+	 * @param lb
+	 * @param key
+	 * @return
+	 */
 	public Server choose(ILoadBalancer lb, Object key) {
 		long requestTime = System.currentTimeMillis();
 		long deadline = requestTime + maxRetryMillis;
