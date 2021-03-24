@@ -23,6 +23,9 @@ import com.netflix.client.config.IClientConfig;
  * Default simple implementation that marks the liveness of a Server
  * 
  * @author stonse
+ *
+ * spring-cloud用的IPing是这个,但是神马都没有
+ * 所以不生效
  * 
  */
 public class DummyPing extends AbstractLoadBalancerPing {

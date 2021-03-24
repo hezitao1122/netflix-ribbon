@@ -32,6 +32,10 @@ import com.netflix.loadbalancer.Server;
  * i.e. we dont do a real "ping". We just assume that the server is up if Discovery Client says so
  * @author stonse
  *
+ Ribbon默认是用的这个ping
+ 1. 获取EurekaClient中的serverList
+ 2. 将serverList中的server都检查一下,是否状态为UP
+ *
  */
 public class NIWSDiscoveryPing extends AbstractLoadBalancerPing {
 	        
